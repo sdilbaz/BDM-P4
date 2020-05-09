@@ -285,8 +285,55 @@ fp.insert(john)
 fp.remove({_id:old_id})
 
 // 1.2
+fp.insertMany([{
+    "_id" : 20,
+    "name" : {
+    "first" : "Mary",
+    "last" : "Sally"
+    },
+    "birth" : ISODate("1933-08-27T04:00:00Z"),
+    "death" : ISODate("1984-11-07T04:00:00Z"),
+    "contribs" : [
+    "C++",
+    "Simula"
+    ],
+    "awards" : [
+    {
+    "award" : "WPI Award",
+    "year" : 1999,
+    "by" : "WPI"
+    }
+    ]
+   },
+   {
+    "_id" : 30,
+    "name" : {
+    "first" : "Ming",
+    "last" : "Zhang"
+    },
+    "birth" : ISODate("1911-04-12T04:00:00Z"),
+    "death" : ISODate("2000-11-07T04:00:00Z"),
+    "contribs" : [
+    "C++",
+    "FP",
+    "Python",
+    ],
+    "awards" : [
+    {
+    "award" : "WPI Award",
+    "year" : 1960,
+    "by" : "WPI"
+    },
+    {
+    "award" : "Turing Award",
+    "year" : 1960,
+    "by" : "ACM"
+    }
+    ]
+   }])
 
 // 1.3
+fp.find( { "awards": { $elemMatch: { award: "Turing Award" ,year:{$gt:1940}} } } )
 
 // 1.4
 
