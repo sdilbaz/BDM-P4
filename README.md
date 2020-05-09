@@ -2,7 +2,38 @@
 ## Project 4 for CS585/DS503: Big Data Management
 ### Serdarcan Dilbaz and Megan Deloach
 
-## Problem 1
+## Problem 1 (Megan did all parts, Serdarcan also did parts 1-7; then we chose the best solutions and made the formatting consistent.)
+The 'famouspeople' collection was created and the documents were inserted using the insertMany command.
+
+### 1.1
+Since the _id field is immutable, the document is retrieved into a variable first. The old _id is saved into another variable before updating the record; the new version of the record is inserted, and then the old _id can be removed from the collection.
+
+### 1.2
+As in creating the database, additional documents are added using insertMany.
+
+### 1.3
+The find() command uses the $elemMatch filter with the $gt flag in order to find records containing a year greater than 1940.
+
+### 1.4
+For this problem, to find documents with more than one award, checking to see if there is a second element in the 'awards' array is sufficient. We used the {$exists: true} filter on the awards.1 array element.
+
+### 1.5
+Using the updateOne command, filtering on the name, allows us to add a contribution to Guido van Rossum.
+
+### 1.6
+The updateOne command can also add fields if you use the $set flag.
+
+### 1.7
+First I used a for loop on the contributions array for Mary Sally. Then a nested for loop within that to print the names, including Mary, of anyone who shares that contribution.
+
+### 1.8
+The regular expressions have to use the backslash syntax in this situation instead of the $regex command. I wasn't certain how to interpret the question, so we have two possibilities: one where the first name contain 'jo', case insensitive, which will include Ole-Johan; and another where the 'jo' must be at the beginning of the name. The carat (^) indicates the string anchor such that the jo much be at the start.
+
+### 1.9
+For this one there must be multiple fields in the filter to find the right document and award that needs to be updated: the _id, and the awards.by field. Then the year can be updated.
+
+### 1.10
+The aggregate method allows a pipeline of operations on records. This means we can find the document to update, get the original contributions array, and concatenate onto it all the contributions from the source document. This could have been done in one line, but I used an intermediate variable for readability.
 
 ## Problem 2 (Serdarcan Dilbaz)
 
