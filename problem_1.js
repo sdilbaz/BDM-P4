@@ -335,9 +335,8 @@ fp.insertMany([{
    }])
 print("1.2\tInserted Values")
 
-
 // 1.3
-turing=fp.find( { "awards": { $elemMatch: { award: "Turing Award" ,year:{$gt:1940}} } } )
+turing=fp.find({ "awards": { $elemMatch: { award: "Turing Award" , year: {$gt: 1940}} } } )
 print("1.3\tPeople with Turing Award after 1940:\n",JSON.stringify(turing))
 
 // 1.4
@@ -345,25 +344,39 @@ more_awards=fp.find({'awards.1': {$exists: true}}).toArray()
 print("1.4\tPeople with more than one award:\n",JSON.stringify(more_awards))
 
 // 1.5
-fp.updateOne({name:{first: "Guido",last:"van Rossum"}},{$push:{contribs:"Python"}})
+fp.updateOne({name: {first: "Guido", last: "van Rossum"}}, {$push: {contribs: "Python"}})
 print("1.5\tUpdated Guido van Rossum:\n",JSON.stringify(fp.findOne({name:{first: "Guido",last:"van Rossum"}})))
 
 // 1.6
-fp.updateOne({name:{first: "Mary",last:"Sally"}}, { $set: {comments:["taught at 2 universities", "was an amazing pioneer", "lived in Worcester."]} })
-print("1.6\tUpdated Marry Sally:\n",JSON.stringify(fp.findOne({name:{first: "Mary",last:"Sally"}})))
+fp.updateOne({ name: {first: "Mary", last: "Sally"}},
+	{$set: {comments:[
+		"taught at 2 universities",
+		"was an amazing pioneer",
+		"lived in Worcester."
+]} })
+print("1.6\tUpdated Marry Sally:\n", JSON.stringify(fp.findOne({name:{first: "Mary",last:"Sally"}})))
 
 // 1.7
-cont=fp.findOne({name:{first: "Mary",last:"Sally"}}).contribs
-inter_results=cont.map(c=>fp.find({contribs:{$in:[ c ]}}).toArray().map(x=>x.name))
-results=[]
-for (var idx = 0; idx < cont.length; idx++) {
-    results.push({Contribution:cont[idx],People:inter_results[idx]})
+print("1.7\n")
+for (c in fp.findOne({name: {first: "Mary", last: "Sally"}}).contribs){
+	print("Contribution: ",c,",\n\tPeople: ")
+	for (p in fp.find({"contribs": c})){
+		print("\n\t",p.name)
+	}
 }
-print("1.7\t",JSON.stringify(results))
 
 // 1.8
+jo=fp.find( {name: {first: {$in: [/jo*/i]}}}).sort({"name.last": 1})
+print("1.8\tDocuments where the first name contains 'jo':\n", JSON.stringify(jo))
+
+jo_start=fp.find( {name:{first: { $in: [/^jo*/i] }}}).sort({"name.last": 1})
+print("1.8\tDocuments where 'Jo' is the beginning of the first name:\n",JSON.stringify(jo_start))
 
 // 1.9
+fp.updateOne({_id: 30}, { $set: {"award.year": 1999}})
+print("1.9\tUpdated document 30:\n", JSON.stringify(fp.findOne({_id:"30"})))
 
 // 1.10
-
+contribs_arr=fp.findOne({_id: 3}).contribs
+fp.aggregate([$match:{_id: 30}, $set: {contribs: {$concatArrays:["$contribs",contribs_arr]])
+print("1.10\tAdded contributions from document 3 to document 30:\n", JSON.stringify(fp.findOne({_id:30})))
