@@ -2,7 +2,7 @@
 ## Project 4 for CS585/DS503: Big Data Management
 ### Serdarcan Dilbaz and Megan Deloach
 
-## Problem 1 (Megan did all parts, Serdarcan also did parts 1-7; then we chose the best solutions and made the formatting consistent.)
+## Problem 1 (Both did all parts; then we chose the best solutions (about 50/50) and made the formatting consistent.)
 The 'famouspeople' collection was created and the documents were inserted using the insertMany command.
 
 ### 1.1
@@ -30,7 +30,7 @@ First I used a for loop on the contributions array for Mary Sally. Then a nested
 The regular expressions have to use the backslash syntax in this situation instead of the $regex command. I wasn't certain how to interpret the question, so we have two possibilities: one where the first name contain 'jo', case insensitive, which will include Ole-Johan; and another where the 'jo' must be at the beginning of the name. The carat (^) indicates the string anchor such that the jo much be at the start.
 
 ### 1.9
-For this one there must be multiple fields in the filter to find the right document and award that needs to be updated: the _id, and the awards.by field. Then the year can be updated.
+For this, we got all the awards for the document, then applied a function to each to update the year if the award was from WPI.
 
 ### 1.10
 The aggregate method allows a pipeline of operations on records. This means we can find the document to update, get the original contributions array, and concatenate onto it all the contributions from the source document. This could have been done in one line, but I used an intermediate variable for readability.

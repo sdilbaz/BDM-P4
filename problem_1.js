@@ -373,8 +373,15 @@ jo_start=fp.find( {name:{first: { $in: [/^jo*/i] }}}).sort({"name.last": 1})
 print("1.8\tDocuments where 'Jo' is the beginning of the first name:\n",JSON.stringify(jo_start))
 
 // 1.9
-fp.updateOne({_id: 30, awards.by: "WPI"}, { $set: {"award.year": 1999}})
-print("1.9\tUpdated document 30:\n", JSON.stringify(fp.findOne({_id:"30"})))
+awards=fp.findOne({_id:30}).awards
+function modifier(award){
+    if (award.by==="WPI"){
+        award.year=1999
+    }
+}
+awards.forEach(modifier)
+fp.updateOne({_id:30},{$set:{awards:awards}})
+print("1.9\t Updated document:",JSON.stringify(fp.findOne({_id:30})),"\n")
 
 // 1.10
 contribs_arr=fp.findOne({_id: 3}).contribs
