@@ -22,7 +22,7 @@ The documents with the smallest and largest "\_ids"'s are found using the sort f
 Text indexes are created for any string fields. "Turing" substirng is searched for the text fields and the find result is stored in the q5 collection.
 
 ### 2.6
-Similarly, the text indexes are used. Space is treated as the OR operator, so to search for "National Medal", "\"National Medal\"" is used. The full search text is "Turing \"National Medal\"" which corresponds "Turing" or "National Medal". The result is stored in the q6 collection.
+Similarly, the text indexes are used. Space is treated as the OR operator, so to search for "National Medal", "\"National Medal\"" is used. The full search text is "Turing \\"National Medal\\"" which corresponds "Turing" or "National Medal". The result is stored in the q6 collection.
 
 ## Problem 3 (Serdarcan Dilbaz)
 
