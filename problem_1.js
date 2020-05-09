@@ -283,6 +283,7 @@ old_id=john._id
 john._id=100;
 fp.insert(john)
 fp.remove({_id:old_id})
+print("1.1\tUpdated John McCarthy:\n",JSON.stringify(fp.findOne({"name":{"first":"John","last":"McCarthy"}})))
 
 // 1.2
 fp.insertMany([{
@@ -331,17 +332,33 @@ fp.insertMany([{
     }
     ]
    }])
+print("1.2\tInserted Values")
+
 
 // 1.3
-fp.find( { "awards": { $elemMatch: { award: "Turing Award" ,year:{$gt:1940}} } } )
+turing=fp.find( { "awards": { $elemMatch: { award: "Turing Award" ,year:{$gt:1940}} } } )
+print("1.3\tPeople with Turing Award after 1940:\n",JSON.stringify(turing))
 
 // 1.4
+more_awards=fp.find({'awards.1': {$exists: true}}).toArray()
+print("1.4\tPeople with more than one award:\n",JSON.stringify(more_awards))
 
 // 1.5
+fp.updateOne({name:{first: "Guido",last:"van Rossum"}},{$push:{contribs:"Python"}})
+print("1.5\tUpdated Guido van Rossum:\n",JSON.stringify(fp.findOne({name:{first: "Guido",last:"van Rossum"}})))
 
 // 1.6
+fp.updateOne({name:{first: "Mary",last:"Sally"}}, { $set: {comments:["taught at 2 universities", "was an amazing pioneer", "lived in Worcester."]} })
+print("1.6\tUpdated Marry Sally:\n",JSON.stringify(fp.findOne({name:{first: "Mary",last:"Sally"}})))
 
 // 1.7
+cont=fp.findOne({name:{first: "Mary",last:"Sally"}}).contribs
+inter_results=cont.map(c=>fp.find({contribs:{$in:[ c ]}}).toArray().map(x=>x.name))
+results=[]
+for (var idx = 0; idx < cont.length; idx++) {
+    results.push({Contribution:cont[idx],People:inter_results[idx]})
+}
+print("1.7\t",JSON.stringify(results))
 
 // 1.8
 
