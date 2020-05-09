@@ -1,5 +1,14 @@
 db = new Mongo().getDB("project4")
 
+db.categories.insertMany( [
+   { _id: "MongoDB", parent: "Databases" },
+   { _id: "dbm", parent: "Databases" },
+   { _id: "Databases", parent: "Programming" },
+   { _id: "Languages", parent: "Programming" },
+   { _id: "Programming", parent: "Books" },
+   { _id: "Books", parent: null }
+] )
+
 // 3.1
 
 // 3.2
@@ -16,7 +25,7 @@ db.categories.insertMany( [
 // 3.3
 db.categories.createIndex( { children: 1 } )
 var parent=db.categories.findOne({ children: "dbm" })._id
-print("Parent of dbm:",parent)
+print("3.3\tParent of dbm:",parent)
 
 // 3.4
 var to_do=["Books"]
@@ -27,7 +36,7 @@ while (to_do.length){
     results.push(...chs)
     to_do.push(...chs)
 }
-print("Descendants of Books:",results)
+print("3.4\tDescendants of Books:",results)
 
 // 3.5
 siblingsOf="Databases"
@@ -37,4 +46,4 @@ var where = siblings.indexOf(siblingsOf);
 if (where > -1) {
     siblings.splice(where ,where+1)
 }
-print("Siblings of Databases:",siblings)
+print("3.5\tSiblings of Databases:",siblings)
