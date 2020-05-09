@@ -1,4 +1,5 @@
 db = new Mongo().getDB("project4");
+db.famouspeople.drop()
 db.createCollection('famouspeople')
 fp=db.famouspeople;
 
