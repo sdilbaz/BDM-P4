@@ -2,40 +2,38 @@
 ## Project 4 for CS585/DS503: Big Data Management
 ### Serdarcan Dilbaz and Megan Deloach
 
-## Problem 1 (Both did all parts; then we chose the best solutions (about 50/50) and made the formatting consistent.)
-The 'famouspeople' collection was created and the documents were inserted using the insertMany command.
-
+## Problem 1
 ### 1.1
-Since the _id field is immutable, the document is retrieved into a variable first. The old _id is saved into another variable before updating the record; the new version of the record is inserted, and then the old _id can be removed from the collection.
+MongoDB does not allow for updating the _id, so the document is copied and after _id is modified the new document is stored. The old document is deleted.
 
 ### 1.2
-As in creating the database, additional documents are added using insertMany.
+insertMany function is used to insert the documents.
 
 ### 1.3
-The find() command uses the $elemMatch filter with the $gt flag in order to find records containing a year greater than 1940.
+The find function is used to complete this query. The $elemMatch is used on the awards.award values and the year is filtered by using the $gt operator.
 
 ### 1.4
-For this problem, to find documents with more than one award, checking to see if there is a second element in the 'awards' array is sufficient. We used the {$exists: true} filter on the awards.1 array element.
+Instead of calculating the size of awards and checking size, the find query checks if the second element exists in awards.
 
 ### 1.5
-Using the updateOne command, filtering on the name, allows us to add a contribution to Guido van Rossum.
+Since the contribs is an array, the updateOne function is used with $push to push the "Python" to the contribs array.
 
 ### 1.6
-The updateOne command can also add fields if you use the $set flag.
+To create a new field, the $set operator with the updateOne function is used. The comments are stored in the comments field.
 
 ### 1.7
-First I used a for loop on the contributions array for Mary Sally. Then a nested for loop within that to print the names, including Mary, of anyone who shares that contribution.
+The contributions of Mary Sally is retrieved. For each contribution in the contribution, the people with that contribution is found and stored in the inter_results array. The results are formatted so that the format mirrors the project description.
 
 ### 1.8
-The regular expressions have to use the backslash syntax in this situation instead of the $regex command. I wasn't certain how to interpret the question, so we have two possibilities: one where the first name contain 'jo', case insensitive, which will include Ole-Johan; and another where the 'jo' must be at the beginning of the name. The carat (^) indicates the string anchor such that the jo much be at the start.
+The find function with the find function with the $regex operator is used. "/^Jo.*/" is used to find name.first that start with "Jo".
 
 ### 1.9
-For this, we got all the awards for the document, then applied a function to each to update the year if the award was from WPI.
+The awards for the document with the _id of 30 is stored in the awards variable. A modifier function changes the year field for awards from WPI. The awards that was modified is used to update the document with the updateOne function.
 
 ### 1.10
-The aggregate method allows a pipeline of operations on records. This means we can find the document to update, get the original contributions array, and concatenate onto it all the contributions from the source document. This could have been done in one line, but I used an intermediate variable for readability.
+The contributions of the document with the _id of 3 is extracted. The updateOne function is used to update the document with _id of 30. The $push and $each operator used to add the contributions.
 
-## Problem 2 (Serdarcan Dilbaz)
+## Problem 2
 
 ### 2.1
 Map-reduce was used for this question. The mapper outputs (key,value) where the key is the award and the value is 1. The reducer calculates the sum of the values for a given key. The results are stored in the q1 collection.
@@ -55,7 +53,7 @@ Text indexes are created for any string fields. "Turing" substirng is searched f
 ### 2.6
 Similarly, the text indexes are used. Space is treated as the OR operator, so to search for "National Medal", "\"National Medal\"" is used. The full search text is "Turing \\"National Medal\\"" which corresponds "Turing" or "National Medal". The result is stored in the q6 collection.
 
-## Problem 3 (Serdarcan Dilbaz)
+## Problem 3
 
 ### 3.1
 To complete this task, the current task is initialized with "MongoDB". While the node has a parent, the results is appended with node and the node is updated with the parent. When the node is null, the process stops. To calculate the level, the level variable is initialized with 1 and incremented whenever the node is updated.
